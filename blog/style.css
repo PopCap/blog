@@ -1,0 +1,37 @@
+/* My personal font selection */
+@import url('https://fonts.googleapis.com/css2?family=Podkova:wght@500&family=Racing+Sans+One&family=Syne:wght@500&display=swap');
+
+body {
+    background-color: #1F2833;
+}
+
+h1 {
+    color: #66FCf1;
+    font-family: 'Racing Sans One', cursive;
+    font-weight: 500;
+}
+
+h2 {
+    color: #66FCf1;
+    font-family: 'Racing Sans One', cursive;
+    font-weight: 400;
+}
+
+h3 {
+    color: #66FCf1;
+    font-family: 'Racing Sans One', cursive;
+    font-weight: 300;
+}
+
+p {
+    color: #C5C6C7;
+    font-family: 'Syne', sans-serif;
+}
+
+.code {
+    background-color: #0b0c10;
+    border: double, #45A29E;
+    border-radius: 5%; 
+    color: #C5C6C7;
+    font-family: 'Podkova', serif;
+}
