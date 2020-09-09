@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Podkova:wght@500&family=Racing+Sans+One&family=Syne:wght@500&display=swap');
 
 body {
-    background-color: #1F2833;
+    background-color: #1F2833 url(bg.svg);
 }
 
 h1 {
