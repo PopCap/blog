@@ -7,6 +7,76 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <p>yeeeeeeeeet</p>
+    <div id="wrapper">
+      <canvas id="background"></canvas>
+    </div>
+    <header>
+      <div class="navlinks" id="home">
+        <a href="index.html">Hey There.</a>
+      </div>
+    </header>
+    <main class="post">
+      <div class="entrySpace">
+        <h1 class="row">Canvas Elements and Animation</h1>
+        <p class="row"> Let me begin by stating I was way in over my head on this one. As much as I enjoy the 
+          general creative freedoms that come with web developement, I probably shouldn't have tried to anything
+          so demanding in format and technical drawing. 
+        </p>
+        <p>
+          This week I learned how to make use of canvas elements to draw different forms, as well as how to animate
+          the drawing of said forms. My goal was to recreate my own version of the following
+          <a href="https://codepen.io/loktar00/full/uEJKl">aesthetic scrolling background scene.</a><br>
+          I started attempting my own mountain terrain through the random selection of heights across a determined number of peak points
+          spanning the distance of the screen width. It looked a little something like this:
+        </p>
+        <p class="code">
+          const width = canvas.width;<br>
+          const height = canvas.height;<br>
+          const ctx = canvas.getContext('2d');<br>
+          ctx.fillStyle = 'black';<br>
+          <br>
+          function plotPoints(points) {
+            const pts = generatePoints(32);<br>
+            // first plot the stroke<br>
+            pts.forEach((pt) => ctx.lineTo(pt.x, pt.y));<br>
+            ctx.stroke();<br>
+            // now define the bottom of the filled area<br>
+            const maxY = height; //Math.max.apply(null, pts.map(pt=>pt.y));<br>
+            // draw the missing parts<br>
+            ctx.lineTo(pts[pts.length - 1].x, maxY); // bottom-right<br>
+            ctx.lineTo(pts[0].x, maxY); // bottom-left<br>
+
+            ctx.globalCompositeOperation = "destination-over"; // draw behind<br>
+            ctx.fill(); // will close the path for us<br>
+            ctx.globalCompositeOperation = "source-over"; // normal behavior<br>
+
+          }<br>
+        </p>
+        <p>
+          My initial idea was after drawing each range with its own generated array of points which were plotted to their individual
+          canvases, I would then be able to call shift() on their array of plots and append a new mountain point at the end of the array to
+          simulate the scrolling of terrain. At the time I was also attempting to use several setInterval() functions as a means of animating my
+          mountains, in a sense like:
+        </p>
+        <p class="code">
+          // apply different intervals for each plot to give sense of depth<br>
+          setInterval(plotPoints(mountain1Points) {<br>
+          }, 1000);<br>
+          setInterval(plotPoints(mountain2Points) {<br>
+          }, 2000);<br>
+          setInterval(plotPoints(mountain2Points) {<br>
+          }, 3300);<br>
+        </p>
+        <p>
+          This proved to be hazardous to the performance of the tab, and my computer at that, so I ended up scrapping all that code. This was also
+          the time I transitioned to using the requestionanimationframe() function that has been adopted by most modern webbrowsers. Anyways, one thing
+          lead to another and I ended up attempting to do a vertical wave animation of changing oppacity. I used the Date js object to measure milliseconds
+          to offset when I would start changing the opacity of one of the several canvases I divided my window with. You can experience the level of success I had
+          with this on my index.html page. I definetly learned more from my mistakes on this assignment, however it has given me enough familiarity with the basic to intermediate
+          uses of canvases, especially with javascript utilization, to improve on what I have so far. That and the number of stackoverflow and w3schools pages I've had to read over.
+          I can also attribute most of my learning to this <a href="https://www.youtube.com/watch?v=yq2au9EfeRQ">little canvas animation youtube tutorial.</a>
+        </p>
+      </div>
+    </main>
   </body>
 </html>
