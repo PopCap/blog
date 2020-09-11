@@ -5,8 +5,8 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow: hidden;
-    height: 100vh;
+    overflow-x: hidden; 
+    min-height: 100vh;
     background-color: black;
     z-index: 0;
     font-family: 'Syne', cursive;
@@ -15,7 +15,7 @@ body {
 
 #background {
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     background-image: url("bg.svg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -26,7 +26,7 @@ body {
     position: absolute;
     padding: 8px;
     top: 0;
-    height:100vh;
+    min-height:100vh;
     width: 45%;
     background-color: black;
     border: double darkgrey 5px;
