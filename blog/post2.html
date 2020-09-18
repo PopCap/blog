@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="wrapper">
+        <canvas id="background"></canvas>
+      </div>
+      <header>
+        <div class="navlinks" id="home">
+          <a href="index.html">Hey There.</a>
+        </div>
+      </header>
+      <main class="post">
+        <div class="entrySpace">
+            <h1 class="row">Finally, My Own Cookies</h1>
+            <p class="row"> This week I tackled a much more standard web development staple, cookies. Nothing fancy here, but it seemed
+                like a good move as it may be a useful tool for delivering some of the desired content of our clients for project one. My pre-cookie-coding
+                crumb trail looks a little something like this: I was reading an <a href="https://css-tricks.com/why-every-website-wants-you-to-accept-its-cookies/">article</a>
+                by Chris Coyer on CSS-TRICKS about the influx of every site notifying you of cookie use. Next was a more
+                <a href="https://html.com/resources/cookies-ultimate-guide/#:~:text=Cookies%2C%20or%2C%20to%20give%20them,specific%20to%20each%20individual%20user.">technical breakdown</a>
+                of cookies in which I decided it'd be best to make some persistent cookies for the camp registration portion of my client's website. This would be incase anything goes wrong
+                during the form filling such that they would have to start at the beginning again. I'm thinking that when they submit the form after reviewing, it would clear any cookies used
+                to save the temporary information that was being held in order to protect the privacy of their kids and family. This alongside having a very short expiration date. My clients 
+                really need a database for the backend of their site, eventually, for currently enrolled campers and previously enrolled campers to monitor returning families as well as provide
+                autofill features for parents registering their kids for a new summer, however I still think I will be able ot utilize cookies in the meantime.
+            </p>
+            <p>
+                For the sake of not wanting to touch PHP yet, I followed <a href="https://www.w3schools.com/js/js_cookies.asp">this</a> guide to create and manage my cookies with JavaScript. In
+                the demonstration for the basics I learned, I will create a basic cookie just to remember the name of the parent Adam Smith. First, would need to be a function to store Adam Smith's
+                name in a cookie:
+            </p>
+            <p class="code">
+                function setCookie(cname, cvalue, exhours) {<br>
+                &nbsp;&nbsp;var d = new Date();<br>
+                &nbsp;&nbsp;d.setTime(d.getTime() + (exHours*60*60*1000));<br>
+                &nbsp;&nbsp;var expires = "expires="+ d.toUTCString();<br>
+                &nbsp;&nbsp;document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/registration.html";<br>
+                }<br>
+            </p>
+            <p>Once again addressing my concern for storing cookies for too long, I would likely pass 1 in for the exhours parameter such that the cookies only remain for an hour after they start
+                filling out the form. That way if they don't get around to submitting the entire registration form their browser relatively quickly deletes the information. Next would be a function
+                to retrieve an existing cookie, and fill in a textfield with the parent's name:
+            </p>
+            <p class="code">
+                function getCookie(cname) {<br>
+                &nbsp;&nbsp;var name = cname + "=";<br>
+                &nbsp;&nbsp;var decodedCookie = decodeURIComponent(document.cookie);<br>
+                &nbsp;&nbsp;var ca = decodedCookie.split(';');<br>
+                &nbsp;&nbsp;for(var i = 0; i < ca.length; i++) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;var c = ca[i];<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;while (c.charAt(0) == ' ') {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c = c.substring(1);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if (c.indexOf(name) == 0) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return c.substring(name.length, c.length);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;return "";<br>
+                }<br>
+            </p>
+            <p>
+                Last of all, I would retrieve the cookie contents and set the "value" attribute of an input element to the name retrieved.
+            </p>
+            <p class="code">
+                function fillFromCookie() {<br>
+                &nbsp;&nbsp;var username = getCookie("username");<br>
+                &nbsp;&nbsp;if (username != "") {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;var input = getElementById("name-input")<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;input.setAttribute("value", username);<br>
+                }<br>
+            </p>
+        </div>
+      </main>
+</body>
+</html>

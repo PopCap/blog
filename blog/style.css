@@ -74,13 +74,19 @@ body {
     z-index: 1;
 }
 
-.navlinks {
-    list-style-type: none;
+#navbar {
+    display: flex;
+    width: 100vw;
+    flex-direction: row;
+    justify-content: space-evenly;
     position: absolute;
     padding: 0;
     margin: 0;
-    left: 140px;
-    bottom: 100px;
+    left: 40px;
+    bottom: 60px;
+}
+.navlinks {
+    list-style-type: none;
     display: flex;
     justify-content: flex-start;
     flex-direction: row;
