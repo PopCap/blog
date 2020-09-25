@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="wrapper">
+        <canvas id="background"></canvas>
+      </div>
+      <header>
+        <div class="navlinks" id="home">
+          <a href="index.html">Hey There.</a>
+        </div>
+      </header>
+      <main class="post">
+        <div class="entrySpace">
+            <h1 class="row">A Loading Screen For Nothing</h1>
+            <p class="row"> 
+                So, for my first blogpost, I created a terribly slow loading JavaScript
+                animation. I really don't like how long it leaves the user waiting for the index.html
+                page to load, and even when it does load, retrieving the fonts I wanted left for an unsightly
+                font replacement. To hide all this ugliness, for this week I learned some more basic CSS animations
+                using keyframes. But these animations would be used as a loading screen as the main page takes its time
+                to render.
+            </p>
+            <p>
+                Part of the modernization for my client's website, for project 1, I believe will come from elegant
+                yet simplistic graphic animations to make the page pop. I intend to use some more complicated JavaScript, home-brewed,
+                animations with a mix of general hover transform animations, which will end with at least a few seconds of loading time.
+                The design for the loading screen comes from the six teams at Camp Kids Place. The oldest-camper teams Red and Yellow,
+                for boys and girls respectively, then Blue and Orange, and lastly Green and Purple, would be represented by stacked circles
+                in the center of the page rotating at different speeds. For the sake of this blogpost, in which my learning is based on
+                <a href="https://www.superhi.com/video/how-to-add-a-simple-loading-screen-to-your-site">this</a> article, I will
+                show the code for make a single circle rotate in the center of the screen. Here we have the most basic HTML to represent 
+                elements we'll need on the page.
+            </p>
+            <p class="code">
+                &lt;div class="loading"&gt;<br>
+                    &nbsp;&nbsp;&lt;img src="images/LoadOut.svg"&gt;<br>
+                &lt;/div&gt;<br>
+            </p>
+            <p>
+                Now we need to ofcourse fill the entire page with a fixed color on the highest z-index to hide any elements that may lie
+                below. We'll also use flexbox ordering to move the circle into the middle of the page.
+            </p>
+            <p class="code">
+                .loading {<br>
+                    &nbsp;&nbsp;position: fixed;<br>
+                    &nbsp;&nbsp;top: 0;<br>
+                    &nbsp;&nbsp;left: 0;<br>
+                    &nbsp;&nbsp;width: 100%<br>
+                    &nbsp;&nbsp;height: 100%;<br>
+                    &nbsp;&nbsp;background-color: #0d98ba;<br>
+                    &nbsp;&nbsp;z-index: 2;<br>
+                    <br>
+                    &nbsp;&nbsp;display: flex;<br>
+                    &nbsp;&nbsp;justify-content: center;<br>
+                    &nbsp;&nbsp;align-items: center;<br>
+                }<br>
+            </p>
+            <p>
+                Next it's time to create a keyframe we call rotate to specify what we want. In this case we want the circle to complete a
+                full rotation, so we use the 0% and 100% indicators to determine the starting position in the animation and the end goal.
+            </p>
+            <p class="code">
+                @keyframes rotate <br>
+                    &nbsp;&nbsp;0% {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;tranform: rotate(0deg);<br>
+                    &nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;100% {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;tranform: rotate(360deg);<br>
+                    &nbsp;&nbsp;}<br>
+                }<br>
+            </p>
+            <p>
+                The last bit of CSS we'll need is to call the keyframe rotate animation we just created on the image found inside our
+                loading &lt;div&gt;.
+            </p>
+            <p class="code">
+                .loading > img {<br>
+                   animation: rotate 2s infinite linear;
+                }<br>
+            </p>
+            <p>
+                Perfect! Now he have an infinitely rotating circle, and no real website to interact with. At this point, I would need
+                to create a JavaScript file to handle the "termination" of the loading screen. All we'd need is query select the loading
+                div element and add a class to it which changes it's opacity to zero, as well as adds the pointer-event none to it so that
+                the mouse will be able to interact with items on the page that are at a lower z-index.
+            </p>
+            <p>
+                Thanks for making it this far! Now it's time I add actual content to the website.
+            </p>
+        </div>
+      </main>
+</body>
+</html>
