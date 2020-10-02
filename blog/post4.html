@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="wrapper">
+        <canvas id="background"></canvas>
+      </div>
+      <header>
+        <div class="navlinks" id="home">
+          <a href="index.html">Hey There.</a>
+        </div>
+      </header>
+      <main class="post">
+        <div class="entrySpace">
+            <h1 class="row">Didn't I See That Kid Already?</h1>
+            <p class="row"> 
+                You really can't have a website for a summer camp without plenty of media showing the kids actually
+                enjoying it. That's why this week I pursued creating an infinitely scrolling horizontal banner for the
+                Camp Kids Place home page, in which I was trying to dispaly as much camp activity as possible at first glance. This blog
+                post is sponsored by the one <a href="https://designshack.net/articles/css/infinitephotobanner/">article</a>
+                which gave me a straight forward approach to creating said banner, however through the use of hardcoding the combined width
+                of all the images in the banner.
+                With the help of countless tabs of stackoverflow and w3schools I created a simple enough algorithm
+                to make the infinity banner work with any number of images (website performance be damned).
+            </p>
+            <p>
+                To explain the general concept behind the infinity banner: You have a row of images, and then you append the exact same row of images
+                to the end of said row. In other words, each image appears twice, however not sequentially, and each image is equally spaced from its copy.
+                The reason for this is that the animation to pull this off is a simple xTranslation. You want the last image, before the copied row, to exit
+                the screen left while maintaing the illusion that the images wrapped back around the the right side of the screen. This mean the translation
+                distance should only be half of the total distance of the combined identical rows of images. So, when the last image of the original row
+                goes off screen, the identical row is in the exact starting place of the original. Then, the animation loops from 100% to 0%, in which case the
+                original row immediately swaps places with it's copy cat and proceeds to move left again.
+            </p>
+            <p>
+                While my banner has two stacked rows of images, the following JavaScript code shows how to make a custom keyframe based on the number of images in a banner
+                consisting of one row. This is assuming you have one div tag populated by img tags. So first, we need to request the div containing the banner
+                images by its id, declare a variable to hold the calculated banner width, and then loop through half of the div's img children to only get the sum
+                without any duplicate images.
+            </p>
+            <p class="code">
+                var images = document.getElementById('banner').childNodes;<br>
+                var bannerLength = 0;<br>
+                for(let i=0; i &lt; (images.length/2); i++) {<br>
+                &nbsp;&nbsp;if (images[i].nodeName.toLowerCase() == 'img') {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;bannerLengthTop -= (images[i].clientWidth);<br>
+                &nbsp;&nbsp;}<br>
+                }<br>
+            </p>
+            <p>
+                Now we need to create a style element in which we will be adding a keyframe to. So we'll need a var to hold the string for that as well. And then replace
+                the placeholder term with the calculated width.
+            </p>
+            <p class="code">
+                var style = document.createElement('style');<br>
+                <br>
+                var keyFrame = '\<br>
+                @keyframe infinityBanner {\<br>
+                &nbsp;&nbsp;0% {\<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;transform: translateX(0);\<br>
+                &nbsp;&nbsp;}\<br>
+                &nbsp;&nbsp;100% {\<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;transform: translateX(TRANSLATE_DISTANCE);\<br>
+                &nbsp;&nbsp;}\<br>
+                }\'';<br>
+                <br>
+                keyFrame = keyFrame.replace(/TRANSLATE_DISTANCE/g, bannerLength + "px");<br>
+            </p>
+            <p>
+                Lastly, we inject html into the style element we made, and then append it to the head of the document. In the style sheet you'll have to call the keyframe we made
+                on the banner id. 
+            </p>
+            <p class="code">
+                style.innerHTML = keyFrame;<br>
+                document.getElementsByTagName('head')[0].appendChild(style);<br>
+            </p>
+            <p>
+                Now that that's done, maybe I can actually get around to adding content to the website.
+            </p>
+        </div>
+      </main>
+</body>
+</html>
