@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="wrapper">
+        <canvas id="background"></canvas>
+      </div>
+      <header>
+        <div class="navlinks" id="home">
+          <a href="index.html">Hey There.</a>
+        </div>
+      </header>
+      <main class="post">
+        <div class="entrySpace">
+            <h1 class="row">Personally, I Just Think It's Ugly</h1>
+            <p class="row"> 
+                So I've been spending all of this time painstakingly designing a color palette, theme, and layout for my client's website, but at the end of the 
+                day the vertical overflow spawns a hideuos default scroll bar on the right hand side of my screen killing all sense of uniformity. Now sadly, replacing
+                the dreary grey thing is quite the hassle from scratch, as most web sources utilize either webkits or external JavaScript libraries to aid in the matter.
+                Luckily, I was able to find this <a href="https://www.youtube.com/watch?v=3HQa6CJh8hI">video</a> tackling the problem directly through the standard JavaScript
+                libraries as well as writing our own classes.
+                It doesn't have a flashy result, however my current knowledge of CSS will allow me to develope a scrollbar better suited for my design. I'll also have to
+                add my own scroll wheel event listener functionality, aswell as a transparency feature when not in use, however that shouldn't be too much a stretch.
+            </p>
+            <p>
+                To explain the general concept behind the custom scrollbar: You have two bars (divs), one (we'll call the ticker) bound to the other through absolute positioning. The two
+                represent vertical tracking along the page as the ticker moves along the stationary bar, much like an actual scrollbar (shocking I know). The stationary bar represents a
+                percentage scale of the height of the html elements it's associated with, in my case it would be main and the footer as the 
+                header has its position set to sticky. To achieve this however, main and footer must also be set to absolute positioning, as the ticker's height in relationship to the bar it's bound to
+                determines the vertical offset of main and footer from the top of the body.
+    
+            </p>
+            <p>
+                One of the first things to do in this case is to define my custom scrollbar class along with all the associated methods. In this code snippet, I will only
+                show the contents of the constructor for the class and do dives into other crucial methods later:
+            </p>
+            <p class="code">
+                class MyBar {<br>
+                    &nbsp;&nbsp;constructor() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.viewElement = undefined<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.childViewElement = undefined<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.barWidth = 10<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.tickerHeight = 4<br> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.viewWidth = undefined<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.viewHeight = undefined<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.childViewWidth = undefined<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.childViewHeight = undefined<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.scrollBarDiv = undefined<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.tickerDiv = undefined<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.tickerPosition = 0<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.outOfViewHeight = 0<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.onMouseMoveHandler = undefined<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.onScrolled = undefined<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.fixedChildHeight = undefined<br>
+                        &nbsp;&nbsp;}<br>
+                    <br>
+                    &nbsp;&nbsp;attachViews(viewElement, childViewElement, onScrolled, fixedChildHeight) {}<br>
+                    &nbsp;&nbsp;calculateWidthsAndHeights() {}<br>
+                    &nbsp;&nbsp;createScrollBar() {}<br>
+                    &nbsp;&nbsp;createTicker() {}<br>
+                    &nbsp;&nbsp;registerForMouseEvents() {}<br>
+                    &nbsp;&nbsp;onPointerDown(event) {}<br>
+                    &nbsp;&nbsp;onMouseDown(event) {}<br>
+                    &nbsp;&nbsp;onMouseUp(event) {}<br>
+                    &nbsp;&nbsp;onMouseMove(event) {}<br>
+                    &nbsp;&nbsp;scrollToTickerY(tickerPosition) {}<br>
+                }<br>
+            </p>
+            <p>
+                Now let's show the code for creating the scrollbar elements and append them to the document. Something to keep in mind is that the viewElement is really the body and the childViewElement
+                is the combination of main of footer. 
+            </p>
+            <p class="code">
+                createScrollBar() {<br>
+                    &nbsp;&nbsp;var scrollBarDiv = document.createElement("div")<br>
+                    &nbsp;&nbsp;this.scrollBarDiv = scrollBarDiv<br>
+                    <br>
+                    &nbsp;&nbsp;scrollBarDiv.style.position = "absolute"<br>
+                    &nbsp;&nbsp;scrollBarDiv.style.width = this.barWidth - 2 + "px"<br>
+                    &nbsp;&nbsp;scrollBarDiv.style.height = this.viewHeight - 2 + "px"<br>
+                    &nbsp;&nbsp;scrollBarDiv.style.backgroundColor = "#dddddd"<br>
+                    &nbsp;&nbsp;scrollBarDiv.style.border = "1px solid #aaaaaa"<br>
+                    &nbsp;&nbsp;scrollBarDiv.style.cursor = "default"<br>
+                    &nbsp;&nbsp;scrollBarDiv.style.left = this.viewWidth - this.barWidth + "px"<br>
+                    &nbsp;&nbsp;scrollBarDiv.style.top = 0 + "px"<br>
+                    &nbsp;&nbsp;scrollBarDiv.style.zIndex = 1000<br>
+                    &nbsp;&nbsp;viewElement.appendChild(this.scrollBarDiv)<br>
+                }<br>
+                <br>
+                createTicker() {<br>
+                    &nbsp;&nbsp;var tickerDiv = document.createElement("div")<br>
+                    &nbsp;&nbsp;this.tickerDiv = tickerDiv<br>
+                    &nbsp;&nbsp;tickerDiv.style.position = "absolute"<br>
+                    &nbsp;&nbsp;tickerDiv.style.width = this.barWidth - 2 + "px"<br>
+                    &nbsp;&nbsp;tickerDiv.style.height = this.tickerHeight<br>
+                    &nbsp;&nbsp;tickerDiv.style.backgroundColor = "#aaaaaa"<br>
+                    &nbsp;&nbsp;tickerDiv.style.left = 0 + "px"<br>
+                    &nbsp;&nbsp;tickerDiv.style.top = 0 + "px"<br>
+                    &nbsp;&nbsp;tickerDiv.style.zIndex = 1001<br>
+                    &nbsp;&nbsp;this.scrollBarDiv.appendChild(this.tickerDiv)<br>
+                }<br>
+            </p>
+            <p>
+                Skipping a few steps, mostly involving registering and binding the mouse event listener to the scrollbar elements we just created, as well as calculating dynamic
+                heights of main for each page of the site, we have the code for actually positioning the content into view of the viewport.
+            </p>
+            <p class="code">
+                scrollToTickerY(tickerPosition) {<br>
+                    &nbsp;&nbsp;//var tickerPosition = event.clientY<br>
+                    &nbsp;&nbsp;tickerPosition = tickerPosition > this.viewHeight ? this.viewHeight : tickerPosition<br>
+                    &nbsp;&nbsp;tickerPosition = tickerPosition < 0 ? 0 : tickerPosition<br>
+                    &nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;this.tickerDiv.style.top = tickerPosition + "px"<br>
+                    &nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;var proportionMovedAlongY = tickerPosition / this.viewHeight<br>
+                    &nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;var lengthViewShouldMove = proportionMovedAlongY * this.outOfViewHeight<br>
+                    &nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;this.childViewElement.style.top = -1 * lengthViewShouldMove + "px"<br>
+                    &nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;if (this.onScrolled == null) {<br>
+                    &nbsp;&nbsp;    return<br>
+                    &nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;//let client know view has scrolled and what the range of visibility is. For virtual scrolling<br>
+                    &nbsp;&nbsp;this.onScrolled(lengthViewShouldMove, lengthViewShouldMove + this.viewHeight)<br>
+                }<br>
+            </p>
+            <p>
+                That was a lot for something so little.
+            </p>
+        </div>
+      </main>
+</body>
+</html>
