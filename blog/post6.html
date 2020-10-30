@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Hooks</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="wrapper">
+        <canvas id="background"></canvas>
+      </div>
+      <header>
+        <div class="navlinks" id="home">
+          <a href="index.html">Hey There.</a>
+        </div>
+      </header>
+      <main class="post">
+        <div class="entrySpace">
+            <h1 class="row">I'm Hooked.</h1>
+            <p class="row"> 
+                I'll be honest here, I'm still pretty new to all this React stuff, and apparently we've already started using the
+                {useState} Hook with our React lectures and labs. Reading up on the <a href=https://reactjs.org/docs/hooks-intro.html">introduction of hooks</a>
+                in the React 16.8 update, apparantley Hooks were a fix for an unconnected web of problems in React that mostly stem from the component model.
+                React alone did not offer an easy way to reuse stateful logic between components, however Hooks allow the extraction of stateful logic from a
+                component for independent testing and reuse, but more importantly reusing said logic without changing the component hierarchy you've created. Also,
+                it's easy for the complexity of components to abound, even when they start simple, yet Hooks let you divide a component into smaller functinos based
+                on related pieces. Lastly, Hooks allow the use of more of React's features without the use of classes, which have been described as a sizeable barrier
+                to learning React. While all of this is great, I still didn't quite understand what a Hook was in the grand scheme of things until the overview on the 
+                <a href="https://reactjs.org/docs/hooks-overview.html">next page</a>.
+            </p>
+            <p>
+                Hooks are, "functions that let you "hook into" React state and lifecycle features from function components." So not only do they let you use React without
+                classes but understandably they aren't useable inside classes at all. React provides the useState, which is called inside a function component to add some
+                local state to it. One example of this was when we implemented it for our palette in Lecture 16. There's also the useEffect Hook, adding the ability to perform side
+                effects from a function component. Both of these provided Hooks can be used more than one in a single component.
+            </p>
+            <p>
+                Used in tangent, an example could be a number which increments every time a button is clicked handled by the useState, and the effect of that would be the
+                document title being updated to say how many times the button's been clicked using the useEffect Hook.
+            </p>
+            <p class="code">
+                function Example() {<br>
+                &nbsp;&nbsp;const [count, setCount] = useState(0);<br>
+                <br>
+                &nbsp;&nbsp;useEffect(() => {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;document.title = `You clicked ${count} times`;<br>
+                &nbsp;&nbsp;});<br>
+                &nbsp;&nbsp;return ... // the html div for the page<br>
+                }<br>
+            </p>
+            <p>
+                You are also able to write your own custom Hooks, which are not only reusable throughout an application in which they're defined, but also throughout all of your
+                applications. Here I'll show you an exmple of custom Hook called useInputValue, which makes handing inputs in your components a lot more concise.
+            </p>
+            <p class="code">
+                import {useState} from "react";<br>
+                <br>
+                export const useInputValue = initialValue => {<br>
+                &nbsp;&nbsp;const [value, setValue] = useState(initialValue);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange: e => {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setValue(e.target.value || e.target.innerText);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;};<br>
+                &nbsp;&nbsp;};<br>
+                };<br>
+            </p>
+            <p>
+                React really isnt even used here because no JSX is being returned/rendered. Still, the useInput function simply takes an initial value, sets it from
+                the value variable from useState, and then returns an object containing the value and an onChange function. Something to keep in mind is that to use this
+                custom Hook would mean making sure to use an event listener in React for the updater function.
+            </p>
+            <p>Finishing this blog post with honesty, there's still a lot I'm confused about here, but I image project 2 will help ingraining React concepts through practice.</p>
+        </div>
+      </main>
+</body>
+</html>
