@@ -76,7 +76,7 @@ body {
 
 #navbar {
     display: flex;
-    width: 100vw;
+    width: 80vw;
     flex-direction: row;
     justify-content: space-evenly;
     position: absolute;
@@ -92,6 +92,7 @@ body {
     justify-content: flex-start;
     flex-direction: row;
     z-index: 10;
+    margin-right: 20px;
 }
 
 .navlinks > a{
