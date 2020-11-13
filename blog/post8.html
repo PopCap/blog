@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Hooks</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="wrapper">
+        <canvas id="background"></canvas>
+      </div>
+      <header>
+        <div class="navlinks" id="home">
+          <a href="index.html">Hey There.</a>
+        </div>
+      </header>
+      <main class="post">
+        <div class="entrySpace">
+            <h1 class="row">Component Fever</h1>
+            <p class="row"> 
+                This week I decided to tackle higher-order components. HOC allow the abstraction of shared logic between components into a single overarching component,
+                instead of bloating the code of a single component. Following the freeCodeCamp post
+                <a href="https://www.freecodecamp.org/news/these-are-the-concepts-you-should-know-in-react-js-after-you-learn-the-basics-ee1d2f4b8030/">here</a>, I approached
+                understanding HOC implementation through authentication. 
+            </p>
+            <p>
+                I think it's important to concretely define a HOC, and it is a function that takes a component and returns a new component. While a normal component tranforms its
+                props into UI, a HOC tranforms a component into another. In the case of the following example, the AuthWrapper component handles all the authentication logic within
+                itself. It's important to mention that this example uses stateful components (class components) as the authorization logic is based on the singular login state.
+            </p>
+            <p>
+                Here is the code for the base UI component which displays a button, and 3 WrappedComponents (the components which get passed to AuthWrapper). The button activates the
+                login state switch, authorizing the display of the components' true paragraph tag info as opposed to the default "You're not logged in :(". 
+            </p>
+            <p class="code">
+                class App extends React.Component {<br>
+                &nbsp;&nbsp;constructor(props) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;super(props)<br>
+                <br>      
+                &nbsp;&nbsp;      this.state = {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;isLoggedIn: false<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;}<br>
+                <br>
+                &nbsp;&nbsp;toggleAuth = () => {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;this.setState((prevState, props) => ({ isLoggedIn: !prevState.isLoggedIn }))<br>
+                &nbsp;&nbsp;}<br>
+                <br>
+                <br>    
+                &nbsp;&nbsp;render() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;const { isLoggedIn } = this.state<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return (<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ltdiv&gt<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ltbutton onClick={this.toggleAuth}&gt{isLoggedIn ? 'Logout' : 'Login' }&lt/button&gt<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ltWrappedOne isLoggedIn={isLoggedIn} /&gt<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ltWrappedTwo isLoggedIn={isLoggedIn} /&gt<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&ltWrappedThree isLoggedIn={isLoggedIn} /&gt<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt/div><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                &nbsp;&nbsp;}<br>
+                }<br>
+            </p>
+            <p>
+                Here is the code for the the actual AuthWrapper HOC which is passed a wrappedComponent, and returns a stateful component which renders
+                the passed component only if the prop element, isLoggedIn, is true. 
+            </p>
+            <p class="code">
+                function AuthWrapper(WrappedComponent) {<br>
+                &nbsp;&nbsp;return class extends React.Component {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;render() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (this.props.isLoggedIn) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return &ltWrappedComponent {...this.props} /><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return &ltp&gtYou're not logged in ☹️&lt/p&gt<br>
+                &nbsp;&nbsp;&nbsp;&nbsp; }<br>
+                &nbsp;&nbsp;}<br>
+                }<br>
+            </p>
+            <p>
+                It's important to show that the Wrapped elements included in the HTML div return tag within the render looks like this:
+            </p>
+            <p class="code">
+                const WrappedOne = AuthWrapper(RegularComponent)<br>
+                const WrappedTwo = AuthWrapper(OtherRegularComponent)<br>
+                const WrappedThree = AuthWrapper(FunctionalComponent)<br>
+            </p>
+            <p>Honestly, not that difficult of material but taking React one day at a time.</p>
+        </div>
+      </main>
+</body>
+</html>
